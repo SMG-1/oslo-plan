@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Oslo — Plan de desarrollo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#f5f1e4;
+    --ink-dim:#c9c4b3;
+    --ink-faint:#8d8873;
+    --bg:#1f261b;
+    --bg-2:#262e20;
+    --bg-3:#2e3726;
+    --line:rgba(245,241,228,0.14);
+    --line-strong:rgba(245,241,228,0.28);
+    --mustard:#d6a24c;
+    --mustard-dim:#a67d3a;
+    --sage:#8fa382;
+    --sage-dim:#5f7052;
+    --rust:#c1633e;
+    --radius:14px;
+    --font-display:'Fraunces', serif;
+    --font-body:'Inter', sans-serif;
+    --font-mono:'JetBrains Mono', monospace;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--font-body);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:var(--mustard);color:var(--bg);}
+
+  .wrap{max-width:760px;margin:0 auto;padding:0 24px 120px;}
+
+  /* ---------- Hero ---------- */
+  .hero{
+    padding:72px 0 48px;
+    border-bottom:1px solid var(--line);
+    opacity:0;
+    animation:rise .8s ease forwards;
+  }
+  @keyframes rise{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+  .eyebrow{
+    font-family:var(--font-mono);
+    font-size:12px;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--mustard);
+    margin:0 0 18px;
+  }
+  h1.title{
+    font-family:var(--font-display);
+    font-weight:600;
+    font-size:clamp(48px,9vw,84px);
+    line-height:0.95;
+    margin:0 0 20px;
+    letter-spacing:-0.01em;
+  }
+  .hero p.lede{
+    font-size:18px;
+    color:var(--ink-dim);
+    max-width:52ch;
+    margin:0 0 8px;
+  }
+  .hero .rule-note{
+    font-size:14px;
+    color:var(--ink-faint);
+    margin-top:24px;
+  }
+
+  /* ---------- Age dial (signature element) ---------- */
+  .dial{
+    margin:40px 0 0;
+    background:var(--bg-2);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:28px 28px 24px;
+  }
+  .dial-label{
+    font-family:var(--font-mono);
+    font-size:12px;
+    color:var(--ink-faint);
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+    margin-bottom:6px;
+  }
+  .dial-age{
+    font-family:var(--font-display);
+    font-size:32px;
+    color:var(--mustard);
+    margin-bottom:18px;
+  }
+  input[type=range]{
+    -webkit-appearance:none;
+    appearance:none;
+    width:100%;
+    height:28px;
+    background:transparent;
+    outline:none;
+    margin:8px 0 4px;
+    touch-action:manipulation;
+  }
+  input[type=range]::-webkit-slider-runnable-track{
+    -webkit-appearance:none;
+    height:4px;
+    background:var(--line-strong);
+    border-radius:4px;
+  }
+  input[type=range]::-moz-range-track{
+    height:4px;
+    background:var(--line-strong);
+    border-radius:4px;
+    border:none;
+  }
+  input[type=range]::-webkit-slider-thumb{
+    -webkit-appearance:none;
+    width:24px;height:24px;border-radius:50%;
+    background:var(--mustard);
+    border:3px solid var(--bg-2);
+    box-shadow:0 0 0 1px var(--mustard);
+    cursor:pointer;
+    margin-top:-10px;
+  }
+  input[type=range]::-moz-range-thumb{
+    width:24px;height:24px;border-radius:50%;
+    background:var(--mustard);border:3px solid var(--bg-2);
+    box-shadow:0 0 0 1px var(--mustard);cursor:pointer;
+    border-radius:50%;
+  }
+  .dial-ticks{
+    display:flex;justify-content:space-between;
+    font-family:var(--font-mono);font-size:11px;color:var(--ink-faint);
+    margin-top:6px;
+  }
+  .dial-out{
+    margin-top:22px;padding-top:20px;border-top:1px solid var(--line);
+    display:flex;gap:16px;align-items:flex-start;
+  }
+  .dial-out-tag{
+    font-family:var(--font-mono);font-size:11px;color:var(--sage);
+    text-transform:uppercase;letter-spacing:0.08em;
+    white-space:nowrap;padding-top:3px;
+  }
+  .dial-out-text{font-size:15px;color:var(--ink);}
+  .dial-out-text b{color:var(--mustard);font-weight:500;}
+
+  /* ---------- Section shells ---------- */
+  section{padding:56px 0;border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+  h2.section-title{
+    font-family:var(--font-display);
+    font-weight:600;
+    font-size:clamp(28px,4vw,38px);
+    margin:0 0 10px;
+    letter-spacing:-0.01em;
+  }
+  .section-intro{color:var(--ink-dim);max-width:58ch;margin:0 0 32px;font-size:15.5px;}
+
+  /* ---------- Golden rules ---------- */
+  .rules-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  @media(max-width:640px){.rules-grid{grid-template-columns:1fr;}}
+  .rule-card{
+    background:var(--bg-2);border:1px solid var(--line);border-radius:var(--radius);
+    padding:22px 22px 24px;
+  }
+  .rule-num{font-family:var(--font-mono);font-size:12px;color:var(--rust);margin-bottom:10px;}
+  .rule-card h3{font-family:var(--font-display);font-weight:500;font-size:19px;margin:0 0 10px;}
+  .rule-card p{font-size:14.5px;color:var(--ink-dim);margin:0;}
+
+  /* ---------- Reward callout ---------- */
+  .reward-box{
+    background:var(--bg-2);border:1px solid var(--line);border-radius:var(--radius);
+    padding:28px;
+  }
+  .reward-seq{
+    display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+    font-family:var(--font-mono);font-size:13px;
+    margin:0 0 24px;padding:16px;background:var(--bg-3);border-radius:10px;
+  }
+  .reward-seq span.step{color:var(--mustard);}
+  .reward-seq span.arrow{color:var(--ink-faint);}
+  ul.reward-list{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:14px;}
+  ul.reward-list li{
+    padding-left:22px;position:relative;font-size:15px;color:var(--ink-dim);
+  }
+  ul.reward-list li::before{
+    content:'';position:absolute;left:0;top:9px;width:6px;height:6px;border-radius:50%;
+    background:var(--sage);
+  }
+  ul.reward-list li b{color:var(--ink);font-weight:500;}
+
+  /* ---------- Timeline / phases ---------- */
+  .timeline{position:relative;padding-left:28px;}
+  .timeline::before{
+    content:'';position:absolute;left:7px;top:6px;bottom:6px;width:1px;
+    background:var(--line-strong);
+  }
+  .phase{position:relative;margin-bottom:14px;}
+  .phase-dot{
+    position:absolute;left:-28px;top:24px;width:15px;height:15px;border-radius:50%;
+    background:var(--bg);border:2px solid var(--sage-dim);transition:background .2s,border-color .2s;
+  }
+  .phase.active .phase-dot{background:var(--mustard);border-color:var(--mustard);}
+  .phase-card{
+    background:var(--bg-2);border:1px solid var(--line);border-radius:var(--radius);
+    overflow:hidden;transition:border-color .2s;
+  }
+  .phase.active .phase-card{border-color:var(--mustard-dim);}
+  .phase-head{
+    display:flex;justify-content:space-between;align-items:center;gap:16px;
+    padding:20px 22px;cursor:pointer;user-select:none;
+  }
+  .phase-head-left{display:flex;flex-direction:column;gap:4px;}
+  .phase-age{font-family:var(--font-mono);font-size:12px;color:var(--sage);text-transform:uppercase;letter-spacing:.06em;}
+  .phase-title{font-family:var(--font-display);font-size:21px;font-weight:500;}
+  .phase-sub{font-size:13.5px;color:var(--ink-faint);}
+  .phase-toggle{
+    font-family:var(--font-mono);font-size:20px;color:var(--ink-faint);
+    transition:transform .25s;flex-shrink:0;
+  }
+  .phase.open .phase-toggle{transform:rotate(45deg);}
+  .phase-body{
+    max-height:0;overflow:hidden;transition:max-height .35s ease;
+  }
+  .phase.open .phase-body{max-height:2000px;}
+  .phase-body-inner{padding:0 22px 24px;}
+  .phase-intro{font-size:14.5px;color:var(--ink-dim);margin:0 0 18px;}
+  .phase-group-label{
+    font-family:var(--font-mono);font-size:11px;color:var(--ink-faint);
+    text-transform:uppercase;letter-spacing:.08em;margin:0 0 10px;
+  }
+  ul.checklist{list-style:none;margin:0 0 20px;padding:0;display:flex;flex-direction:column;gap:9px;}
+  ul.checklist li{display:flex;align-items:flex-start;gap:10px;font-size:14.5px;color:var(--ink);}
+  ul.checklist input[type=checkbox]{
+    appearance:none;-webkit-appearance:none;
+    width:17px;height:17px;flex-shrink:0;margin-top:2px;
+    border:1.5px solid var(--line-strong);border-radius:5px;
+    cursor:pointer;position:relative;transition:background .15s,border-color .15s;
+  }
+  ul.checklist input[type=checkbox]:checked{background:var(--sage-dim);border-color:var(--sage);}
+  ul.checklist input[type=checkbox]:checked::after{
+    content:'';position:absolute;left:5px;top:1px;width:4px;height:8px;
+    border-right:2px solid var(--ink);border-bottom:2px solid var(--ink);
+    transform:rotate(40deg);
+  }
+  ul.checklist label{cursor:pointer;}
+  ul.checklist li.done label{color:var(--ink-faint);text-decoration:line-through;}
+  .avoid-box{
+    margin-top:6px;padding:14px 16px;background:rgba(193,99,62,0.1);
+    border:1px solid rgba(193,99,62,0.3);border-radius:10px;
+    font-size:13.5px;color:var(--ink-dim);
+  }
+  .avoid-box b{color:var(--rust);font-weight:500;}
+  .phase-count{
+    font-family:var(--font-mono);font-size:11px;color:var(--ink-faint);
+  }
+
+  /* ---------- Progress ---------- */
+  .progress-wrap{
+    position:sticky;top:0;z-index:10;background:var(--bg);
+    padding:14px 0;border-bottom:1px solid var(--line);
+    display:flex;align-items:center;gap:14px;
+    backdrop-filter:blur(6px);
+  }
+  .progress-track{flex:1;height:4px;background:var(--bg-3);border-radius:4px;overflow:hidden;}
+  .progress-fill{height:100%;background:var(--mustard);width:0%;transition:width .3s ease;}
+  .progress-text{font-family:var(--font-mono);font-size:11.5px;color:var(--ink-faint);white-space:nowrap;}
+
+  /* ---------- Vaccination table ---------- */
+  .vax-summary{
+    display:flex;align-items:baseline;gap:10px;margin:0 0 22px;
+  }
+  .vax-summary .num{font-family:var(--font-display);font-size:30px;color:var(--sage);}
+  .vax-summary .lbl{font-size:14px;color:var(--ink-faint);}
+  .vax-table-wrap{
+    background:var(--bg-2);border:1px solid var(--line);border-radius:var(--radius);
+    overflow:hidden;
+  }
+  table.vax{width:100%;border-collapse:collapse;font-size:14.5px;}
+  table.vax th{
+    text-align:left;font-family:var(--font-mono);font-size:11px;color:var(--ink-faint);
+    text-transform:uppercase;letter-spacing:.06em;font-weight:400;
+    padding:18px 22px 14px;border-bottom:1px solid var(--line-strong);
+  }
+  table.vax td{padding:15px 22px;border-bottom:1px solid var(--line);color:var(--ink);vertical-align:middle;}
+  table.vax tr:last-child td{border-bottom:none;}
+  table.vax td.vax-name{font-weight:500;}
+  table.vax td.vax-age{color:var(--ink-faint);font-family:var(--font-mono);font-size:12.5px;white-space:nowrap;}
+  table.vax td.vax-date{
+    font-family:var(--font-mono);font-size:13px;color:var(--ink-dim);white-space:nowrap;
+    text-align:right;
+  }
+  table.vax tr.vax-done td.vax-date{color:var(--sage);}
+  table.vax tr.vax-done td.vax-status i{color:var(--sage);}
+  table.vax td.vax-status{width:26px;padding-right:0;padding-left:22px;}
+  table.vax td.vax-status .dot{
+    display:inline-block;width:9px;height:9px;border-radius:50%;
+    border:1.5px solid var(--line-strong);box-sizing:border-box;
+  }
+  table.vax tr.vax-done td.vax-status .dot{background:var(--sage);border-color:var(--sage);}
+  .vax-note{
+    margin-top:16px;padding:14px 16px;background:rgba(214,162,76,0.1);
+    border:1px solid rgba(214,162,76,0.3);border-radius:10px;
+    font-size:13.5px;color:var(--ink-dim);
+  }
+  .vax-note b{color:var(--mustard);font-weight:500;}
+
+  /* ---------- Reference table ---------- */
+  table.ref{width:100%;border-collapse:collapse;font-size:14px;}
+  table.ref th{
+    text-align:left;font-family:var(--font-mono);font-size:11px;color:var(--ink-faint);
+    text-transform:uppercase;letter-spacing:.06em;font-weight:400;
+    padding:0 0 12px;border-bottom:1px solid var(--line-strong);
+  }
+  table.ref td{padding:14px 0;border-bottom:1px solid var(--line);color:var(--ink-dim);vertical-align:top;}
+  table.ref td:first-child{color:var(--mustard);font-family:var(--font-mono);font-size:12.5px;white-space:nowrap;padding-right:20px;}
+
+  /* ---------- Closing ---------- */
+  .closing{
+    background:var(--bg-2);border:1px solid var(--line);border-radius:var(--radius);
+    padding:28px;
+  }
+  .closing p{font-size:15px;color:var(--ink-dim);margin:0;}
+  footer{text-align:center;padding:40px 0 0;font-size:12.5px;color:var(--ink-faint);font-family:var(--font-mono);}
+
+  @media(prefers-reduced-motion:reduce){
+    *{animation:none !important;transition:none !important;}
+  }
+</style>
+</head>
+<body>
+
+<div class="progress-wrap">
+  <div class="wrap" style="display:flex;align-items:center;gap:14px;padding:0 24px;">
+    <span class="progress-text" id="progress-label">0 / 0 completado</span>
+    <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <section class="hero" style="border-bottom:none;padding-bottom:0;">
+    <p class="eyebrow">Plan de desarrollo canino</p>
+    <h1 class="title">Oslo</h1>
+    <p class="lede">De cachorro curioso a border collie equilibrado. Un plan guiado por edad, pensado para una raza que necesita tanto ejercicio para el cuerpo como para la mente.</p>
+
+    <div class="dial">
+      <div class="dial-label">¿En qué etapa está Oslo?</div>
+      <div class="dial-age" id="age-display">8 semanas</div>
+      <input type="range" id="age-slider" min="8" max="104" value="8" step="1">
+      <div class="dial-ticks">
+        <span>8 sem.</span><span>6 meses</span><span>12 meses</span><span>18 meses</span><span>24+ meses</span>
+      </div>
+      <div class="dial-out">
+        <span class="dial-out-tag" id="phase-tag">Fase 1</span>
+        <span class="dial-out-text" id="phase-priority"></span>
+      </div>
+    </div>
+    <p class="rule-note">Mueve el control para ver en qué se debe enfocar cada etapa. Abajo está el plan completo, fase por fase.</p>
+  </section>
+
+  <section id="rules">
+    <h2 class="section-title">Dos reglas que superan todo lo demás</h2>
+    <p class="section-intro">Antes de cualquier lista de tareas, estas dos ideas guían cada decisión del plan.</p>
+    <div class="rules-grid">
+      <div class="rule-card">
+        <div class="rule-num">Regla 01</div>
+        <h3>El cuerpo espera, la mente no</h3>
+        <p>El ejercicio físico se mantiene de bajo impacto hasta los 12–18 meses: nada de carreras forzadas, saltos repetidos (subir y bajar de muebles, saltar del carro) ni salidas largas en bicicleta. Las placas de crecimiento de un border collie no cierran hasta esa edad, y el daño articular en cachorros suele ser invisible hasta que aparece la artritis años después. El ejercicio mental no tiene ese límite — apóyate mucho en él.</p>
+      </div>
+      <div class="rule-card">
+        <div class="rule-num">Regla 02</div>
+        <h3>Poco y seguido gana</h3>
+        <p>Sesiones de 5 minutos, 3 a 5 veces al día, funcionan mejor que una sola sesión de 45 minutos a esta edad. La atención de un cachorro es corta; cada sesión debe terminar antes de que Oslo se aburra, no cuando tú te canses de repetir.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="reward">
+    <h2 class="section-title">¿Qué significa "premiar"?</h2>
+    <p class="section-intro">Esta palabra aparece en cada fase del plan. Vale la pena definirla bien desde el principio, porque el cómo importa tanto como el qué.</p>
+    <div class="reward-box">
+      <div class="reward-seq">
+        <span class="step">conducta correcta</span>
+        <span class="arrow">→</span>
+        <span class="step">marcador ("¡sí!" o clic)</span>
+        <span class="arrow">→</span>
+        <span class="step">premio en &lt;1 seg.</span>
+      </div>
+      <ul class="reward-list">
+        <li><b>Comida, casi siempre a esta edad.</b> Trocitos pequeños y suaves — pollo cocido, queso, premios blandos — no galletas grandes que lo obliguen a detenerse a masticar.</li>
+        <li><b>El momento importa más que el premio en sí.</b> Debe llegar en el primer segundo después de la conducta, o Oslo no hará la conexión. Por eso sirve tanto una palabra marcadora o un clicker.</li>
+        <li><b>El elogio o las caricias no bastan solos</b> para enseñar algo nuevo a esta edad — están bien como extra, pero la comida construye la conducta mucho más rápido.</li>
+        <li><b>Varía los premios.</b> Usar siempre el mismo se vuelve aburrido rápido para un perro tan listo. Rota entre 2-3 opciones.</li>
+        <li><b>Una vez firme la conducta, aleatoriza.</b> Premia cada repetición mientras aprende algo nuevo; luego premia la mayoría, pero no todas — la imprevisibilidad hace que la conducta resista mejor con el tiempo.</li>
+        <li><b>Las recompensas de la vida cuentan también</b> — abrir la puerta para salir, dejarlo ir a olfatear, lanzar la pelota. Con el tiempo se vuelven "sueldos" que no requieren cargar premios siempre.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="phases">
+    <h2 class="section-title">Las cinco fases</h2>
+    <p class="section-intro">Cada tarjeta se puede abrir y usar como lista de control. Marca lo que ya hayan trabajado juntos.</p>
+
+    <div class="timeline" id="timeline"></div>
+  </section>
+
+  <section id="vacunas">
+    <h2 class="section-title">Calendario de vacunas</h2>
+    <p class="section-intro">Las fechas se editan directamente en el código y quedan visibles en todos los dispositivos. Los rangos de edad son una guía general — el veterinario define el calendario real de Oslo.</p>
+
+    <div class="vax-summary">
+      <span class="num" id="vax-count">0</span>
+      <span class="lbl" id="vax-count-lbl">de 0 vacunas registradas</span>
+    </div>
+
+    <div class="vax-table-wrap">
+      <table class="vax">
+        <thead>
+          <tr>
+            <th style="padding-left:22px;">Estado</th>
+            <th>Vacuna</th>
+            <th>Edad típica</th>
+            <th style="text-align:right;">Fecha aplicada</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!--
+            ============================================================
+            CÓMO EDITAR LAS FECHAS
+            Reemplaza el guión ( — ) de cada fila con la fecha real.
+            Ejemplo:  <td class="vax-date">15 feb 2026</td>
+            Cualquier texto que no sea "—" marca la vacuna como aplicada
+            (el punto se pone verde automáticamente).
+            Se edita desde la web de GitHub: abre el archivo, toca el
+            lápiz, cambia la fecha y confirma. Queda visible al instante.
+            ============================================================
+          -->
+          <tr>
+            <td class="vax-status"><span class="dot"></span></td>
+            <td class="vax-name">Séxtuple (1ª dosis)</td>
+            <td class="vax-age">6–8 semanas</td>
+            <td class="vax-date">—</td>
+          </tr>
+          <tr>
+            <td class="vax-status"><span class="dot"></span></td>
+            <td class="vax-name">Séxtuple (2ª dosis)</td>
+            <td class="vax-age">9–11 semanas</td>
+            <td class="vax-date">—</td>
+          </tr>
+          <tr>
+            <td class="vax-status"><span class="dot"></span></td>
+            <td class="vax-name">Séxtuple (3ª dosis)</td>
+            <td class="vax-age">12–14 semanas</td>
+            <td class="vax-date">—</td>
+          </tr>
+          <tr>
+            <td class="vax-status"><span class="dot"></span></td>
+            <td class="vax-name">Séxtuple (dosis final)</td>
+            <td class="vax-age">15–16 semanas</td>
+            <td class="vax-date">—</td>
+          </tr>
+          <tr>
+            <td class="vax-status"><span class="dot"></span></td>
+            <td class="vax-name">Rabia</td>
+            <td class="vax-age">12–16 semanas</td>
+            <td class="vax-date">—</td>
+          </tr>
+          <tr>
+            <td class="vax-status"><span class="dot"></span></td>
+            <td class="vax-name">Tos de las perreras (Bordetella)</td>
+            <td class="vax-age">opcional, 8+ sem.</td>
+            <td class="vax-date">—</td>
+          </tr>
+          <tr>
+            <td class="vax-status"><span class="dot"></span></td>
+            <td class="vax-name">Refuerzo anual (séxtuple + rabia)</td>
+            <td class="vax-age">cada año</td>
+            <td class="vax-date">—</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="vax-note"><b>Nota —</b> En Costa Rica la "séxtuple" cubre moquillo, hepatitis, parvovirus, parainfluenza y leptospira. Nombres, número de dosis y fechas exactas los define el veterinario de Oslo; esta tabla es solo un registro de referencia para la familia.</div>
+  </section>
+
+  <section id="reference">
+    <h2 class="section-title">Referencia rápida</h2>
+    <table class="ref">
+      <tr><th>Edad</th><th>Enfoque principal</th></tr>
+      <tr><td>8–16 sem.</td><td>Ventana de socialización, entrenamiento de baño y jaula, inhibición de mordida, comandos base.</td></tr>
+      <tr><td>4–6 meses</td><td>Correa suelta, llamado, control de impulsos, entrenamiento para quedarse solo.</td></tr>
+      <tr><td>6–12 meses</td><td>Adolescencia — reforzar todo bajo distracción, enriquecimiento mental, redirección del instinto pastor.</td></tr>
+      <tr><td>12–18 meses</td><td>El ejercicio físico aumenta gradualmente, obediencia avanzada, inicio en deportes caninos.</td></tr>
+      <tr><td>18–24+ meses</td><td>Mantenimiento, enriquecimiento de por vida, un "trabajo" fijo para el cerebro.</td></tr>
+    </table>
+  </section>
+
+  <section id="closing" style="border-bottom:none;">
+    <h2 class="section-title">Sobre el temperamento</h2>
+    <div class="closing">
+      <p>Cada border collie tiene una intensidad distinta — algunos son más "suaves" y dóciles, otros están muy motivados y reactivos al movimiento. A medida que avancen las fases 2 y 3, vale la pena notar qué tipo es Oslo, porque eso indicará cuánta salida necesita (uno de alta energía puede necesitar genuinamente un deporte, no solo paseos) y cuánto hay que manejar su entorno alrededor de disparadores como bicicletas, corredores o ganado.</p>
+    </div>
+    <footer>Plan de desarrollo — Oslo</footer>
+  </section>
+
+</div>
+
+<script>
+const phases = [
+  {
+    id:1, tag:'Fase 1', range:'8–16 semanas', minWeek:8, maxWeek:16,
+    title:'Fundamentos', sub:'La ventana de socialización',
+    intro:'La etapa más importante de toda la vida de Oslo. La ventana conductual para una socialización fácil y sin miedo se cierra alrededor de las 16 semanas y no se vuelve a abrir igual. Todo lo que no experimente con calma ahora puede requerir rehabilitación después.',
+    priority:'Es la <b>ventana de socialización</b>: expón a Oslo a gente, sonidos y superficies nuevas cada día, y arranca con jaula, baño e inhibición de mordida.',
+    groups:[
+      {label:'Socialización', items:[
+        'Personas: distintas edades, sombreros, barbas, uniformes, sillas de ruedas, niños',
+        'Perros: unos pocos adultos tranquilos, vacunados y sociables — calidad sobre cantidad',
+        'Entornos: paseos en carro, veterinario solo por premios, pavimento, pasto, grava, escaleras',
+        'Sonidos: aspiradora, secadora, timbre, tráfico, truenos grabados a bajo volumen',
+        'Manejo diario: tócale patas, orejas y boca para futuras visitas sin estrés'
+      ]},
+      {label:'Entrenamiento base', items:[
+        'Reconocimiento del nombre',
+        'Palabra marcadora o clicker',
+        'Sentado y echado',
+        'Entrenamiento de jaula como refugio, no castigo',
+        'Baño: sacarlo cada 30–60 min, tras siestas, comidas y juego',
+        'Inhibición de mordida — yelp y retirar atención'
+      ]}
+    ],
+    avoid:'Nada de correcciones de correa por jalones, caminatas largas, entrenamiento de salto, ni saturarlo de estímulos. Todo debe sentirse como un juego.'
+  },
+  {
+    id:2, tag:'Fase 2', range:'4–6 meses', minWeek:17, maxWeek:26,
+    title:'Construcción', sub:'Comienza la adolescencia',
+    intro:'Las vacunas suelen estar completas, así que el mundo se abre — pero también la independencia. Aquí es cuando los cachorros empiezan a probar si "sentado" es realmente obligatorio.',
+    priority:'Construye <b>correa suelta y llamado</b> — el llamado es la habilidad más valiosa para una raza con instinto de persecución — y empieza el entrenamiento para quedarse solo.',
+    groups:[
+      {label:'Habilidades clave', items:[
+        'Caminar con correa suelta',
+        'Llamado ("ven") con premios de alto valor',
+        'Quieto / espera en puertas y antes de comer',
+        '"Suéltalo" y "déjalo"',
+        'Entrenamiento gradual para quedarse solo',
+        'Enriquecimiento suave: tapetes de olfato, juguetes de comida'
+      ]}
+    ],
+    avoid:'Cuando Oslo empiece a "acechar" cosas en movimiento — niños corriendo, bicicletas, otras mascotas — no castigues el instinto, redirígelo hacia un juguete apropiado (pértiga de señuelo, buscar, tira y afloja).'
+  },
+  {
+    id:3, tag:'Fase 3', range:'6–12 meses', minWeek:27, maxWeek:52,
+    title:'Adolescencia', sub:'La etapa de prueba',
+    intro:'Aquí es donde la mayoría de dueños se desanima — un cachorro antes obediente parece "olvidar" todo de repente. Esto es normal en el desarrollo, no un retroceso. La consistencia ahora determina el perro adulto que tendrán.',
+    priority:'Refuerza <b>todo lo anterior bajo distracción real</b> y arranca trabajo mental estructurado: olfato, trucos, agility básico sin saltos.',
+    groups:[
+      {label:'Enfoque de la etapa', items:[
+        'Reforzar fases 1–2 en entornos más distractores (parque, calle)',
+        'Extender el llamado sin correa en áreas seguras y cerradas',
+        'Trabajo mental estructurado: olfato, trucos, rompecabezas',
+        'Introducción a agility básico (túneles, sin saltos) o treibball',
+        'Socialización calmada continua para evitar reactividad adulta',
+        'Conversar con el veterinario sobre el momento de esterilización'
+      ]}
+    ],
+    avoid:'Puede aparecer un segundo período de miedo en cualquier momento. Si Oslo de repente parece asustado de algo común, no lo fuerces — deja que se acerque a su propio ritmo.'
+  },
+  {
+    id:4, tag:'Fase 4', range:'12–18 meses', minWeek:53, maxWeek:78,
+    title:'Refinamiento', sub:'Volviéndose adulto',
+    intro:'Las placas de crecimiento se están cerrando, así que aquí se puede introducir ejercicio físico real de forma gradual.',
+    priority:'El <b>ejercicio físico puede aumentar</b> — trote, caminatas más largas — y es buen momento para empezar un deporte canino formal.',
+    groups:[
+      {label:'Enfoque de la etapa', items:[
+        'Aumentar duración e intensidad del ejercicio gradualmente',
+        'Obediencia avanzada con distracciones reales',
+        'Comando de "lugar" o quietud en público',
+        'Considerar agility, pruebas de instinto pastor, flyball o disc dog',
+        'Consolidar el "botón de apagado" para que se calme en casa'
+      ]}
+    ],
+    avoid:null
+  },
+  {
+    id:5, tag:'Fase 5', range:'18–24+ meses', minWeek:79, maxWeek:104,
+    title:'Mantenimiento', sub:'Vida adulta',
+    intro:'Para entonces Oslo es esencialmente un perro adulto entrenado. El plan pasa de enseñar a mantener y canalizar.',
+    priority:'Mantén el <b>enriquecimiento mental diario</b> y un "trabajo" fijo — sin eso, un border collie adulto se aburre y se vuelve destructivo o ansioso.',
+    groups:[
+      {label:'Enfoque de la etapa', items:[
+        'Enriquecimiento mental diario de por vida',
+        'Ejercicio estructurado regular + tiempo sin correa en áreas seguras',
+        'Mantener un "trabajo": deporte, juegos de entrenamiento, tareas tipo trabajo',
+        'Repasos periódicos de obediencia básica, sobre todo el llamado'
+      ]}
+    ],
+    avoid:null
+  }
+];
+
+const timeline = document.getElementById('timeline');
+let itemUid = 0;
+
+phases.forEach((p, idx) => {
+  const el = document.createElement('div');
+  el.className = 'phase';
+  el.id = 'phase-' + p.id;
+
+  let groupsHtml = '';
+  p.groups.forEach(g => {
+    let itemsHtml = '';
+    g.items.forEach(text => {
+      const uid = 'chk-' + (itemUid++);
+      itemsHtml += `<li><input type="checkbox" id="${uid}"><label for="${uid}">${text}</label></li>`;
+    });
+    groupsHtml += `<div class="phase-group-label">${g.label}</div><ul class="checklist">${itemsHtml}</ul>`;
+  });
+
+  const avoidHtml = p.avoid ? `<div class="avoid-box"><b>Qué evitar —</b> ${p.avoid}</div>` : '';
+
+  el.innerHTML = `
+    <div class="phase-dot"></div>
+    <div class="phase-card">
+      <div class="phase-head" data-target="phase-${p.id}">
+        <div class="phase-head-left">
+          <span class="phase-age">${p.range}</span>
+          <span class="phase-title">${p.title}</span>
+          <span class="phase-sub">${p.sub}</span>
+        </div>
+        <span class="phase-toggle">+</span>
+      </div>
+      <div class="phase-body">
+        <div class="phase-body-inner">
+          <p class="phase-intro">${p.intro}</p>
+          ${groupsHtml}
+          ${avoidHtml}
+        </div>
+      </div>
+    </div>
+  `;
+  timeline.appendChild(el);
+});
+
+// accordion toggle
+document.querySelectorAll('.phase-head').forEach(head => {
+  head.addEventListener('click', () => {
+    const phase = head.closest('.phase');
+    const wasOpen = phase.classList.contains('open');
+    document.querySelectorAll('.phase.open').forEach(p => p.classList.remove('open'));
+    if (!wasOpen) phase.classList.add('open');
+  });
+});
+
+// checklist + progress
+function updateProgress(){
+  const all = document.querySelectorAll('.checklist input[type=checkbox]');
+  const checked = document.querySelectorAll('.checklist input[type=checkbox]:checked');
+  document.getElementById('progress-fill').style.width = (all.length ? (checked.length/all.length*100) : 0) + '%';
+  document.getElementById('progress-label').textContent = checked.length + ' / ' + all.length + ' completado';
+}
+document.querySelectorAll('.checklist input[type=checkbox]').forEach(cb => {
+  cb.addEventListener('change', () => {
+    cb.closest('li').classList.toggle('done', cb.checked);
+    updateProgress();
+  });
+});
+updateProgress();
+
+// age slider
+const slider = document.getElementById('age-slider');
+const ageDisplay = document.getElementById('age-display');
+const phaseTag = document.getElementById('phase-tag');
+const phasePriority = document.getElementById('phase-priority');
+
+function weeksToLabel(w){
+  if (w < 17) return w + ' semanas';
+  const months = Math.round(w/4.345);
+  return months + (months === 1 ? ' mes' : ' meses');
+}
+
+function updateDial(){
+  const w = parseInt(slider.value, 10);
+  ageDisplay.textContent = weeksToLabel(w);
+  const active = phases.find(p => w >= p.minWeek && w <= p.maxWeek) || phases[phases.length-1];
+  phaseTag.textContent = active.tag + ' — ' + active.title;
+  phasePriority.innerHTML = active.priority;
+  document.querySelectorAll('.phase').forEach(p => p.classList.remove('active'));
+  document.getElementById('phase-' + active.id).classList.add('active');
+}
+slider.addEventListener('input', updateDial);
+updateDial();
+
+// open first phase by default
+document.getElementById('phase-1').classList.add('open');
+
+// vaccination status: any date cell that isn't the placeholder marks the row done
+(function(){
+  const rows = document.querySelectorAll('table.vax tbody tr');
+  let done = 0;
+  rows.forEach(row => {
+    const cell = row.querySelector('.vax-date');
+    const val = cell ? cell.textContent.trim() : '';
+    if (val && val !== '—') {
+      row.classList.add('vax-done');
+      done++;
+    }
+  });
+  document.getElementById('vax-count').textContent = done;
+  document.getElementById('vax-count-lbl').textContent =
+    'de ' + rows.length + ' vacunas registradas';
+})();
+</script>
+
+</body>
+</html>
